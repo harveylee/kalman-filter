@@ -9,20 +9,38 @@
     "xo": "xo",
     "fmt": "xo --fix",
     "semantic-release": "semantic-release",
-    "build-demo": "tsc && npm run build && browserify -d -r ./demo/bike/main.js:bike > docs/dist/bike.js && browserify -d -r ./demo/bouncing-ball/main.js:bouncing-ball > docs/dist/bouncing-ball.js && cp dist/kalman-filter.js docs/dist/kalman-filter.js",
-    "serve-demo": "http-server docs/",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack"
+    "build:types": "tsc -p tsconfig.json",
+    "build:esm": "bun build index.ts --outfile=dist/esm/index.js --format=esm --minify --sourcemap",
+    "build:umd": "bun build index.ts --outfile=dist/kalman-filter.min.js --format=iife --global-name=kalmanFilter --minify --sourcemap",
+    "build:all": "npm run build:types && npm run build:esm && npm run build:umd",
+    "build": "npm run build:all",
+    "build-demo": "npm run build && browserify -d -r ./demo/bike/main.js:bike > docs/dist/bike.js && browserify -d -r ./demo/bouncing-ball/main.js:bouncing-ball > docs/dist/bouncing-ball.js && cp dist/kalman-filter.js docs/dist/kalman-filter.js",
+    "serve-demo": "bun run http-server docs/ || http-server docs/",
+    "bun:install": "bun install",
+    "bun:build": "bun build index.ts --outfile=dist/esm/index.js --format=esm --minify --sourcemap && bun build index.ts --outfile=dist/kalman-filter.min.js --format=iife --global-name=kalmanFilter --minify --sourcemap"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/piercus/kalman-filter.git"
   },
   "files": [
+    "dist",
+    "index.mjs",
     "cjs/index.js",
     "cjs/index.d.ts",
     "cjs/index.d.ts.map",
     "cjs/lib"
   ],
+  "module": "dist/esm/exports.mjs",
+  "type": "module",
+  "exports": {
+    ".": {
+      "require": "./cjs/index.js",
+      "import": "./dist/esm/exports.mjs",
+      "default": "./cjs/index.js"
+    },
+    "./package.json": "./package.json"
+  },
   "release": {
     "branches": [
       "master"
@@ -96,7 +114,7 @@
     "eslint-config-xo-typescript": "^4.0.0",
     "hasard": "^1.6.1",
     "http-server": "^14.1.1",
-    "semantic-release": "^23.1.1",
+    "semantic-release": "^25.0.2",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
@@ -116,7 +134,9 @@
     "extensions": [
       "ts"
     ],
-    "files": ["!**/*.d.ts"]
+    "files": [
+      "!**/*.d.ts"
+    ]
   },
   "xo": {
     "ignores": [

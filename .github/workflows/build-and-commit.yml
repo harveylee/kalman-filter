@@ -1,0 +1,55 @@
+name: Build and commit dist artifacts
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    name: Build & Commit
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-actions'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 'latest'
+
+      - name: Install deps (bun)
+        run: bun install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build bundles
+        run: npm run build
+
+      - name: Commit dist if changed
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dist cjs index.mjs package.json BUN_MIGRATION.md || true
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "chore(build): add dist artifacts [skip ci]" || echo "Nothing to commit"
+            git push
+          else
+            echo "No changes to commit"
+          fi
