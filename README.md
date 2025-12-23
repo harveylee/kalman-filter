@@ -12,6 +12,8 @@ This library implements following features:
 * Extended Kalman Filter
 * Correlation Matrix
 
+This is a fork that implements an ESM build process using Bun, intended for direct consumption from Github.
+
 ## Demos/Examples
 
 |Link | Description | Image |
@@ -160,8 +162,8 @@ This will automatically configure the `dynamic.transition` matrix.
 
 ```math
 \begin{align}
-State :& \begin{bmatrix} x_t \end{bmatrix}\\ 
-Transition Equation :& x_t \sim x_{t-1} \\ 
+State :& \begin{bmatrix} x_t \end{bmatrix}\\
+Transition Equation :& x_t \sim x_{t-1} \\
 dynamic.transition :& \begin{bmatrix} 1 \end{bmatrix}
 \end{align}
 ```
@@ -170,12 +172,12 @@ dynamic.transition :& \begin{bmatrix} 1 \end{bmatrix}
 
 ```math
 \begin{align}
-State :& \begin{bmatrix} x_t \\ speed_t \end{bmatrix} \\ 
-Transition Equation :& 
+State :& \begin{bmatrix} x_t \\ speed_t \end{bmatrix} \\
+Transition Equation :&
 \begin{split}
-x_t &\sim x_{t-1} + speed_{t-1},\\ 
+x_t &\sim x_{t-1} + speed_{t-1},\\
 speed_t &\sim speed_{t-1}
-\end{split} \\ 
+\end{split} \\
 dynamic.transition :& \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}
 \end{align}
 ```
@@ -184,14 +186,14 @@ dynamic.transition :& \begin{bmatrix} 1 & 1 \\ 0 & 1 \end{bmatrix}
 
 ```math
 \begin{align}
-State :& \begin{bmatrix} x_t \\ speed_t \\ acc_t \end{bmatrix} \\ 
+State :& \begin{bmatrix} x_t \\ speed_t \\ acc_t \end{bmatrix} \\
 
-Transition Equation :& 
+Transition Equation :&
 \begin{split}
-x_t &\sim x_{t-1} + speed_{t-1} \\ 
-speed_t &\sim speed_{t-1} + acc_{t-1} \\ 
+x_t &\sim x_{t-1} + speed_{t-1} \\
+speed_t &\sim speed_{t-1} + acc_{t-1} \\
 acc_t &\sim acc_{t-1}
-\end{split} \\ 
+\end{split} \\
 dynamic.transition :& \begin{bmatrix} 1 & 1 & 0 \\ 0 & 1 & 1 \\ 0 & 0 & 1\end{bmatrix}
 \end{align}
 ```
@@ -405,7 +407,7 @@ const kFilter = new KalmanFilter({
 		* @param {State} opts.predicted
 		* @param {Array.<Number>} opts.observation
 		* @param {Number} opts.index
-		*/		
+		*/
 		covariance: function(opts){
 			return [
 				[1, 0, 0, 0],
@@ -436,12 +438,12 @@ const kFilter = new KalmanFilter({
 		/**
 		* @param {State} opts.previousCorrected
 		* @param {Number} opts.index
-		*/		
+		*/
 		covariance: function(opts){
 			const dT = intervals[opts.index];
 			if(typeof(dT) !== 'number' || isNaN(dT) || dT <= 0){
 				throw(new Error('dT should be positive number'))
-			}			
+			}
 			return [
 				[1, 0, 0, 0],
 				[0, 1, 0, 0],
