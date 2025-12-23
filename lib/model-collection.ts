@@ -28,9 +28,7 @@ export function registerDynamic(name: string, fn): void {
  */
 export function buildObservation(observation) {
 	if (typeof (registeredObservationModels[observation.name]) !== 'function') {
-		throw (new TypeError(
-			`The provided observation model name (${observation.name}) is not registered`,
-		));
+		throw (new TypeError(`The provided observation model name (${observation.name}) is not registered`));
 	}
 
 	return registeredObservationModels[observation.name](observation);
@@ -44,9 +42,8 @@ export function buildObservation(observation) {
  */
 export function buildDynamic(dynamic, observation) {
 	if (typeof (registeredDynamicModels[dynamic.name]) !== 'function') {
-		throw (new TypeError(
-			`The provided dynamic model (${dynamic.name}) name is not registered`,
-		));
+		throw (new TypeError(`The provided dynamic model (${dynamic.name}) name is not registered`));
 	}
+
 	return registeredDynamicModels[dynamic.name](dynamic, observation);
 }

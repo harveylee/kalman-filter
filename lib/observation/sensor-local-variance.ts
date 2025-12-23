@@ -1,5 +1,4 @@
 import {identity} from 'simple-linalg';
-
 import {buildObservation} from '../model-collection';
 import {ObservationConfig} from '../types/ObservationConfig';
 /**

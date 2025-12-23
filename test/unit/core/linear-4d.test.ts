@@ -1,17 +1,18 @@
 import {test, expect} from 'bun:test';
-const t = {
-	true: (v:any) => expect(v).toBeTruthy(),
-	is: (a:any, b:any) => expect(a).toBe(b),
-	deepEqual: (a:any, b:any) => expect(a).toEqual(b),
-	not: (a:any, b:any) => expect(a).not.toBe(b),
-};
 import sl from 'simple-linalg';
-const {frobenius: distanceMat} = sl;
-import CoreKalmanFilterPkg from '../../../cjs/lib/core-kalman-filter.js';
-const CoreKalmanFilter = ((CoreKalmanFilterPkg as any) && (CoreKalmanFilterPkg as any).default) ? (CoreKalmanFilterPkg as any).default : (CoreKalmanFilterPkg as any);
-import StatePkg from '../../../cjs/lib/state.js';
-const State = ((StatePkg as any) && (StatePkg as any).default) ? (StatePkg as any).default : (StatePkg as any);
+import CoreKalmanFilterPkg from '#lib/core-kalman-filter';
+import StatePkg from '#lib/state';
 import getCorrelation from '../../helpers/get-correlation';
+
+const t = {
+	true: (v: any) => expect(v).toBeTruthy(),
+	is: (a: any, b: any) => expect(a).toBe(b),
+	deepEqual: (a: any, b: any) => expect(a).toEqual(b),
+	not: (a: any, b: any) => expect(a).not.toBe(b),
+};
+const {frobenius: distanceMat} = sl;
+const CoreKalmanFilter = ((CoreKalmanFilterPkg as any) && (CoreKalmanFilterPkg as any).default) ? (CoreKalmanFilterPkg as any).default : (CoreKalmanFilterPkg as any);
+const State = ((StatePkg as any) && (StatePkg as any).default) ? (StatePkg as any).default : (StatePkg as any);
 
 // Tests in 4D with constant speed model
 
@@ -190,10 +191,8 @@ test('stateProjection', () => {
 
 	// Verify that the correlation between w and x is greater when the stateProjection
 	// includes a dependance between x and w
-	t.true(
-		Math.abs(getCorrelation(corrected1.covariance, 2, 0))
-		< Math.abs(getCorrelation(corrected2.covariance, 2, 0)),
-	);
+	t.true(Math.abs(getCorrelation(corrected1.covariance, 2, 0))
+		< Math.abs(getCorrelation(corrected2.covariance, 2, 0)));
 });
 
 // Test 3: Mixed fitted observation: some terms are well fitted, others not

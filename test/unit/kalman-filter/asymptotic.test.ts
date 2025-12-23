@@ -1,19 +1,25 @@
 import {test, expect} from 'bun:test';
+import sl from 'simple-linalg';
+import {KalmanFilter} from '../../../index';
+
 const t = {
-	true: (v:any) => expect(v).toBeTruthy(),
-	is: (a:any, b:any) => expect(a).toBe(b),
-	deepEqual: (a:any, b:any) => expect(a).toEqual(b),
-	not: (a:any, b:any) => expect(a).not.toBe(b),
-	throws: (fn:any) => {
+	true: (v: any) => expect(v).toBeTruthy(),
+	is: (a: any, b: any) => expect(a).toBe(b),
+	deepEqual: (a: any, b: any) => expect(a).toEqual(b),
+	not: (a: any, b: any) => expect(a).not.toBe(b),
+	throws: (fn: any) => {
 		let error;
-		try { fn(); } catch (e) { error = e; }
+		try {
+			fn();
+		} catch (error_) {
+			error = error_;
+		}
+
 		expect(error).toBeTruthy();
 		return error;
 	},
 };
-import sl from 'simple-linalg';
 const {frobenius: distanceMat, sum} = sl;
-import {KalmanFilter} from '../../../index';
 
 // Test 1 : Verify that a simple model converges quickly
 

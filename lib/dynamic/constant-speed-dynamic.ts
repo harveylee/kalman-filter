@@ -6,7 +6,7 @@ import State from '../state';
 * @param {ObservationConfig} observation
 * @returns {DynamicConfig}
 */
-export default function constantSpeedDynamic(args: {staticCovariance: number[], avSpeed: number[], center: number[]}, observation) {
+export default function constantSpeedDynamic(args: {staticCovariance: number[]; avSpeed: number[]; center: number[]}, observation) {
 	const {staticCovariance, avSpeed, center} = args;
 	const observationDimension = observation.observedProjection[0].length;
 
@@ -32,7 +32,7 @@ export default function constantSpeedDynamic(args: {staticCovariance: number[], 
 		index: -1,
 	};
 
-	const transition = (args: {getTime: (index: number) => number, index: number, previousCorrected: State}) => {
+	const transition = (args: {getTime: (index: number) => number; index: number; previousCorrected: State}) => {
 		const {getTime, index, previousCorrected} = args;
 		const dT = getTime(index) - getTime(previousCorrected.index);
 		if (typeof (dT) !== 'number' || Number.isNaN(dT)) {
@@ -61,7 +61,7 @@ export default function constantSpeedDynamic(args: {staticCovariance: number[], 
 		return mat;
 	};
 
-	const covariance = (args: {index: number, previousCorrected: State, getTime: (index: number) => number}) => {
+	const covariance = (args: {index: number; previousCorrected: State; getTime: (index: number) => number}) => {
 		const {index, previousCorrected, getTime} = args;
 		const dT = getTime(index) - getTime(previousCorrected.index);
 

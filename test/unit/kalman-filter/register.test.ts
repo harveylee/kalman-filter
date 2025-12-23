@@ -1,23 +1,26 @@
 import {test, expect} from 'bun:test';
+import sl from 'simple-linalg';
+import {KalmanFilter, State, registerDynamic} from '../../../index';
+import equalState from '../../helpers/equal-state';
+
 const t = {
-	true: (v:any) => expect(v).toBeTruthy(),
-	is: (a:any, b:any) => expect(a).toBe(b),
-	deepEqual: (a:any, b:any) => expect(a).toEqual(b),
-	not: (a:any, b:any) => expect(a).not.toBe(b),
-	throws: (fn:any) => {
+	true: (v: any) => expect(v).toBeTruthy(),
+	is: (a: any, b: any) => expect(a).toBe(b),
+	deepEqual: (a: any, b: any) => expect(a).toEqual(b),
+	not: (a: any, b: any) => expect(a).not.toBe(b),
+	throws: (fn: any) => {
 		let error;
-		try { fn(); } catch (e) { error = e; }
+		try {
+			fn();
+		} catch (error_) {
+			error = error_;
+		}
+
 		expect(error).toBeTruthy();
 		return error;
 	},
 };
-import sl from 'simple-linalg';
 const {identity} = sl;
-
-import {KalmanFilter} from '../../../index.mjs';
-import {State} from '../../../index.mjs';
-import equalState from '../../helpers/equal-state';
-import {registerDynamic} from '../../../index.mjs';
 // Verify that we can use a registered model, the observations are here in 1D
 
 test('Check constant position', () => {

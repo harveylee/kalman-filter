@@ -5,20 +5,21 @@
 // We have used a specific script to build the default parameters [script](../../../script/covariance-pendulum.js)
 
 import {test, expect} from 'bun:test';
-const t = {
-	true: (v:any) => expect(v).toBeTruthy(),
-	is: (a:any, b:any) => expect(a).toBe(b),
-	deepEqual: (a:any, b:any) => expect(a).toEqual(b),
-	not: (a:any, b:any) => expect(a).not.toBe(b),
-};
 import sl from 'simple-linalg';
-const {frobenius: distanceMat} = sl;
-import CoreKalmanFilterPkg from '../../../cjs/lib/core-kalman-filter.js';
-const CoreKalmanFilter = ((CoreKalmanFilterPkg as any) && (CoreKalmanFilterPkg as any).default) ? (CoreKalmanFilterPkg as any).default : (CoreKalmanFilterPkg as any);
-import StatePkg from '../../../cjs/lib/state.js';
-const State = ((StatePkg as any) && (StatePkg as any).default) ? (StatePkg as any).default : (StatePkg as any);
+import CoreKalmanFilterPkg from '#lib/core-kalman-filter';
+import StatePkg from '#lib/state';
 import getCorrelation from '../../helpers/get-correlation';
-import {CoreConfig, PredictedCallback} from '../../../lib/types/ObservationConfig';
+import {CoreConfig, PredictedCallback} from '#lib/types/ObservationConfig';
+
+const t = {
+	true: (v: any) => expect(v).toBeTruthy(),
+	is: (a: any, b: any) => expect(a).toBe(b),
+	deepEqual: (a: any, b: any) => expect(a).toEqual(b),
+	not: (a: any, b: any) => expect(a).not.toBe(b),
+};
+const {frobenius: distanceMat} = sl;
+const CoreKalmanFilter = ((CoreKalmanFilterPkg as any) && (CoreKalmanFilterPkg as any).default) ? (CoreKalmanFilterPkg as any).default : (CoreKalmanFilterPkg as any);
+const State = ((StatePkg as any) && (StatePkg as any).default) ? (StatePkg as any).default : (StatePkg as any);
 
 // Tests in 2D with constant speed model
 
@@ -200,9 +201,7 @@ test('Bad fit observation and correlation', () => {
 		predicted: predicted1,
 		observation: badFitObs,
 	});
-	const diff = Math.abs(
-		getCorrelation(predicted1.covariance, 0, 1) - getCorrelation(corrected1.covariance, 0, 1),
-	);
+	const diff = Math.abs(getCorrelation(predicted1.covariance, 0, 1) - getCorrelation(corrected1.covariance, 0, 1));
 	t.true(diff < 0.1);
 });
 

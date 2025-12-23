@@ -1,5 +1,5 @@
 import {test, expect} from 'bun:test';
-import {KalmanFilter} from '../../index.mjs';
+import {KalmanFilter} from '../../index';
 
 test('Sinusoide Extended Kalman-Filter', () => {
 	const noiseLevel = 0.25;

@@ -43,4 +43,6 @@ function deepAssignInternal(args: any[], step: number): Record<string, any> {
 	return result;
 }
 
-export default function deepAssign(...args: any[]): any { return deepAssignInternal(args, 0);}
+export default function deepAssign(...args: any[]): any {
+	return deepAssignInternal(args, 0);
+}

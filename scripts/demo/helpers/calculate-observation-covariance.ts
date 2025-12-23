@@ -1,7 +1,7 @@
 import getCovariance from '../../../lib/utils/get-covariance';
 import generateNoisyObservation from './generate-noisy-observation';
 
-export default function calculateObservationCovariance(args: {groundTruths: number[][], rangeNoise?: number, numberRun?: number}): number[][] {
+export default function calculateObservationCovariance(args: {groundTruths: number[][]; rangeNoise?: number; numberRun?: number}): number[][] {
 	const {groundTruths, rangeNoise = 10, numberRun = 1} = args;
 
 	const noisyMatrixes = generateNoisyObservation({groundTruths, rangeNoise, numberRun});

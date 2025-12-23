@@ -18,7 +18,7 @@ const huge = 1e6;
 * @param {ObservationConfig} observation
 * @returns {DynamicConfig}
 */
-export default function constantSpeedWithNull(args: {staticCovariance?: number[][], obsDynaIndexes?: number[], nullGapModel?: string[], init}, observation) {
+export default function constantSpeedWithNull(args: {staticCovariance?: number[][]; obsDynaIndexes?: number[]; nullGapModel?: string[]; init}, observation) {
 	let {staticCovariance, obsDynaIndexes, nullGapModel = null, init} = args;
 	if (!obsDynaIndexes) {
 		const l = observation.observedProjection[0].length;

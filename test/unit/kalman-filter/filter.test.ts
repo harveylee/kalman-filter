@@ -1,14 +1,13 @@
 import {test, expect} from 'bun:test';
-const t = {
-	true: (v:any) => expect(v).toBeTruthy(),
-	is: (a:any, b:any) => expect(a).toBe(b),
-	deepEqual: (a:any, b:any) => expect(a).toEqual(b),
-	not: (a:any, b:any) => expect(a).not.toBe(b),
-};
 import equalState from '../../../test/helpers/equal-state';
 import {KalmanFilter} from '../../../index';
-import StatePkg from '../../../cjs/lib/state.js';
-const State = ((StatePkg as any) && (StatePkg as any).default) ? (StatePkg as any).default : (StatePkg as any);
+
+const t = {
+	true: (v: any) => expect(v).toBeTruthy(),
+	is: (a: any, b: any) => expect(a).toBe(b),
+	deepEqual: (a: any, b: any) => expect(a).toEqual(b),
+	not: (a: any, b: any) => expect(a).not.toBe(b),
+};
 
 test('Filter method', () => {
 	const observations = [[0.11], [0.21], [0.3]];

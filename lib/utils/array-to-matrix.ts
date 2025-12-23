@@ -6,12 +6,13 @@
 *@returns {Array.<Array.<Number>>}
 */
 // export default function arrayToMatrix(args: {observation: number, dimension: 1}): number[][];
-export default function arrayToMatrix(args: {observation: number | number[] | number[][], dimension: number}): number[][] {
+export default function arrayToMatrix(args: {observation: number | number[] | number[][]; dimension: number}): number[][] {
 	const {observation, dimension} = args;
 	if (!Array.isArray(observation)) {
 		if (dimension === 1 && typeof (observation) === 'number') {
 			return [[observation]];
 		}
+
 		throw (new TypeError(`The observation (${observation}) should be an array (dimension: ${dimension})`));
 	}
 

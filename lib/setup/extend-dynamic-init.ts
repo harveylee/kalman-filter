@@ -13,7 +13,7 @@ import TypeAssert from '../types/TypeAssert';
  * @returns {CoreConfig}
  */
 
-export default function extendDynamicInit(args: {observation: ObservationConfig, dynamic: DynamicConfigParcial}): {observation: ObservationConfig, dynamic: DynamicConfig} {
+export default function extendDynamicInit(args: {observation: ObservationConfig; dynamic: DynamicConfigParcial}): {observation: ObservationConfig; dynamic: DynamicConfig} {
 	const {observation, dynamic} = args;
 	if (!dynamic.init) {
 		const huge = 1e6;
@@ -42,6 +42,7 @@ export default function extendDynamicInit(args: {observation: ObservationConfig,
 	if (TypeAssert.isFunction(covariance)) {
 		throw new TypeError('covariance can not be a function');
 	}
+
 	dynamic.init = {
 		...dynamic.init,
 		covariance,

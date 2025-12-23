@@ -68,8 +68,8 @@ const buildDefaultObservation = function (observation): ObservationObjectConfig 
 */
 
 const setupModelsParameters = function (args: {
-	observation?: number | string | null | ObservationObjectConfig, // ObservationConfig
-	dynamic?: any
+	observation?: number | string | undefined | ObservationObjectConfig; // ObservationConfig
+	dynamic?: any;
 }) {
 	let {observation, dynamic} = args;
 	if (typeof (observation) !== 'object' || observation === null) {
@@ -77,7 +77,7 @@ const setupModelsParameters = function (args: {
 	}
 
 	if (typeof (dynamic) !== 'object' || dynamic === null) {
-		dynamic = buildDefaultDynamic(dynamic/*, observation*/);
+		dynamic = buildDefaultDynamic(dynamic/* , observation */);
 	}
 
 	if (typeof (observation.name) === 'string') {
@@ -123,7 +123,7 @@ const modelsParametersToCoreOptions = function (modelToBeChanged: ModelsParamete
 	});
 };
 
-export default class KalmanFilter extends CoreKalmanFilter {
+export class KalmanFilter extends CoreKalmanFilter {
 	/**
 	* @typedef {Object} Config
 	* @property {DynamicObjectConfig | DynamicNonObjectConfig} dynamic
@@ -133,14 +133,15 @@ export default class KalmanFilter extends CoreKalmanFilter {
 	* @param {Config} options
 	*/
 	// constructor(options: {observation?: ObservationConfig, dynamic?: DynamicConfig, logger?: WinstonLogger} = {}) {
-	constructor(options: {observation?: any | {name: string}, dynamic?: any | {name: string}, logger?: WinstonLogger} = {}) {
+	constructor(options: {observation?: any | {name: string}; dynamic?: any | {name: string}; logger?: WinstonLogger} = {}) {
 		const modelsParameters = setupModelsParameters(options);
 		const coreOptions = modelsParametersToCoreOptions(modelsParameters);
 
 		super({...options, ...coreOptions});
 	}
+
 	// previousCorrected?: State, index?: number,
-	correct(options: {predicted: State, observation: number[] | number[][]}): State {
+	correct(options: {predicted: State; observation: number[] | number[][]}): State {
 		const coreObservation = arrayToMatrix({observation: options.observation, dimension: this.observation.dimension});
 		return super.correct({
 			...options,
@@ -154,7 +155,7 @@ export default class KalmanFilter extends CoreKalmanFilter {
 	* @param {<Array.<Number>>} observation
 	* @returns {Array.<Number>} the mean of the corrections
 	*/
-	filter(options: {previousCorrected?: State, index?: number, observation: number[] | number[][]}): State {
+	filter(options: {previousCorrected?: State; index?: number; observation: number[] | number[][]}): State {
 		const predicted = super.predict(options);
 		return this.correct({
 			...options,
@@ -207,6 +208,7 @@ export default class KalmanFilter extends CoreKalmanFilter {
 				return results[i];
 			}
 		}
+
 		throw (new Error('The state covariance does not converge asymptotically'));
 	}
 
@@ -227,3 +229,5 @@ export default class KalmanFilter extends CoreKalmanFilter {
 		return super.getGain({predicted: asymptoticState});
 	}
 }
+
+export default KalmanFilter

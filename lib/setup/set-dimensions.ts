@@ -8,7 +8,7 @@ import {DynamicConfigParcial, DynamicConfigParcialNoDim} from '../types/Observat
  * @param {DynamicConfig} dynamic
  * @returns {ObservationConfig, DynamicConfig}
  */
-export default function setDimensions(args: {observation, dynamic: DynamicConfigParcialNoDim}): {observation: any, dynamic: DynamicConfigParcial} {
+export default function setDimensions(args: {observation; dynamic: DynamicConfigParcialNoDim}): {observation: any; dynamic: DynamicConfigParcial} {
 	const {observation, dynamic} = args;
 	const {stateProjection} = observation;
 	const {transition} = dynamic;

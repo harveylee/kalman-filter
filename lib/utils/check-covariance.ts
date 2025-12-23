@@ -24,19 +24,18 @@ const checkSymetric = function (covariance, title = 'checkSymetric') {
 			} else if (Math.abs(item) > Math.sqrt(covariance[rowId][rowId] * covariance[colId][colId])) {
 				console.log(covariance);
 				throw new Error(`[${title}] Covariance[${rowId}][${colId}] should verify Cauchy Schwarz Inequality `
-				+ `(expected: |x| <= sqrt(${covariance[rowId][rowId]} * ${covariance[colId][colId]})`
-				+ ` actual: ${item})`);
+					+ `(expected: |x| <= sqrt(${covariance[rowId][rowId]} * ${covariance[colId][colId]})`
+					+ ` actual: ${item})`);
 			} else if (Math.abs(item - covariance[colId][rowId]) > tolerance) {
 				throw new Error(`[${title}] Covariance[${rowId}][${colId}] should equal Covariance[${colId}][${rowId}] `
-			+ ` (actual diff: ${Math.abs(item - covariance[colId][rowId])})  = ${item} - ${covariance[colId][rowId]}\n`
-			+ `${covariance.join('\n')} is invalid`,
-				);
+					+ ` (actual diff: ${Math.abs(item - covariance[colId][rowId])})  = ${item} - ${covariance[colId][rowId]}\n`
+					+ `${covariance.join('\n')} is invalid`);
 			}
 		}
 	}
 };
 
-export default function checkCovariance(args: {covariance: number[][], eigen?: boolean}, _title?: string) {
+export default function checkCovariance(args: {covariance: number[][]; eigen?: boolean}, _title?: string) {
 	const {covariance, eigen = false} = args;
 	checkMatrix(covariance);
 	checkSymetric(covariance);

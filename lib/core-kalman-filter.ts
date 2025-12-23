@@ -26,6 +26,7 @@ export default class CoreKalmanFilter {
 		this.observation = observation;
 		this.logger = logger;
 	}
+
 	// | number[]
 	getValue(fn: number[][] | PreviousCorrectedCallback | PredictedCallback, options: any): number[][] {
 		return (typeof (fn) === 'function' ? fn(options) : fn);
@@ -49,7 +50,7 @@ export default class CoreKalmanFilter {
 	* @returns{Array.<Array.<Number>>}
 	*/
 
-	getPredictedCovariance(options: {previousCorrected?: State, index?: number} = {}) {
+	getPredictedCovariance(options: {previousCorrected?: State; index?: number} = {}) {
 		let {previousCorrected, index} = options;
 		previousCorrected ||= this.getInitState();
 
@@ -72,7 +73,7 @@ export default class CoreKalmanFilter {
 		return covariance;
 	}
 
-	predictMean(o: {opts, transition: number[][]}) {
+	predictMean(o: {opts; transition: number[][]}) {
 		const mean = this.predictMeanWithoutControl(o);
 		if (!this.dynamic.constant) {
 			return mean;
@@ -84,7 +85,7 @@ export default class CoreKalmanFilter {
 		return add(mean, control);
 	}
 
-	predictMeanWithoutControl(args: {opts, transition: number[][]}): number[][] {
+	predictMeanWithoutControl(args: {opts; transition: number[][]}): number[][] {
 		const {opts, transition} = args;
 		if (this.dynamic.fn) {
 			return this.dynamic.fn(opts);
@@ -99,7 +100,7 @@ export default class CoreKalmanFilter {
 	* @returns{State} predicted State
 	*/
 
-	predict(options: {previousCorrected?: State, index?: number, observation?: number[] | number[][]} = {}): State {
+	predict(options: {previousCorrected?: State; index?: number; observation?: number[] | number[][]} = {}): State {
 		let {previousCorrected, index} = options;
 		previousCorrected ||= this.getInitState();
 
@@ -128,6 +129,7 @@ export default class CoreKalmanFilter {
 
 		return predicted;
 	}
+
 	/**
 	 * This will return the new correction, taking into account the prediction made
 	 * and the observation of the sensor
@@ -135,7 +137,7 @@ export default class CoreKalmanFilter {
 	 * @param options
 	 * @returns kalmanGain
 	 */
-	getGain(options: {predicted: State, stateProjection?: number[][]}): number[][] {
+	getGain(options: {predicted: State; stateProjection?: number[][]}): number[][] {
 		let {predicted, stateProjection} = options;
 		const getValueOptions = {
 			index: predicted.index,
@@ -169,7 +171,7 @@ export default class CoreKalmanFilter {
 	 * @param {State} predicted the previous State
 	 * @returns{Array.<Array.<Number>>}
 	 */
-	getCorrectedCovariance(options: {predicted: State, optimalKalmanGain?: any, stateProjection?: any}): number[][] {
+	getCorrectedCovariance(options: {predicted: State; optimalKalmanGain?: any; stateProjection?: any}): number[][] {
 		let {predicted, optimalKalmanGain, stateProjection} = options;
 		const identity = getIdentity(predicted.covariance.length);
 		if (!stateProjection) {
@@ -189,7 +191,7 @@ export default class CoreKalmanFilter {
 		);
 	}
 
-	getPredictedObservation(args: {opts: any, stateProjection: number[][]}): number[][] {
+	getPredictedObservation(args: {opts: any; stateProjection: number[][]}): number[][] {
 		const {opts, stateProjection} = args;
 		if (this.observation.fn) {
 			return this.observation.fn(opts);
@@ -207,7 +209,7 @@ export default class CoreKalmanFilter {
 	* @returns{State} corrected State of the Kalman Filter
 	*/
 
-	correct(options: {predicted: any, observation: any}): State {
+	correct(options: {predicted: any; observation: any}): State {
 		const {predicted, observation} = options;
 		State.check(predicted, {dimension: this.dynamic.dimension});
 		if (!observation) {
@@ -248,8 +250,7 @@ export default class CoreKalmanFilter {
 			optimalKalmanGain,
 			stateProjection,
 			...options,
-		},
-		);
+		});
 		const corrected = new State({mean, covariance, index: predicted.index});
 		this.logger.debug('Correction done', corrected);
 		return corrected;

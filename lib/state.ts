@@ -14,12 +14,12 @@ import TypeAssert from './types/TypeAssert';
  * @property {Array.<Array.<Number>>} covariance square matrix of size dimension
  * @property {Array.<Array<Number>>} mean column matrix of size dimension x 1
  */
-export default class State implements StateLT {
+export class State implements StateLT {
 	mean: number[][];
 	covariance: number[][];
 	index: number | undefined;
 
-	constructor(args: {mean: number[][], covariance: number[][], index?: number}) {
+	constructor(args: {mean: number[][]; covariance: number[][]; index?: number}) {
 		this.mean = args.mean;
 		this.covariance = args.covariance;
 		this.index = args.index || undefined;
@@ -30,7 +30,7 @@ export default class State implements StateLT {
 	* @param {Object} options
 	* @see check
 	*/
-	check(options?: {dimension?: number | null, title?: string, eigen?: boolean}): void {
+	check(options?: {dimension?: number | undefined; title?: string; eigen?: boolean}): void {
 		State.check(this, options);
 	}
 
@@ -43,13 +43,11 @@ export default class State implements StateLT {
 	* @param {Boolean} options.eigen
 	* @returns {Null}
 	*/
-	static check(state: State, args: {dimension?: number | null, title?: string, eigen?: boolean} = {}): void {
+	static check(state: State, args: {dimension?: number | undefined; title?: string; eigen?: boolean} = {}): void {
 		const {dimension, title, eigen} = args;
 		if (!(state instanceof State)) {
-			throw (new TypeError(
-				'The argument is not a state \n'
-        + 'Tips: maybe you are using 2 different version of kalman-filter in your npm deps tree',
-			));
+			throw (new TypeError('The argument is not a state \n'
+				+ 'Tips: maybe you are using 2 different version of kalman-filter in your npm deps tree'));
 		}
 
 		const {mean, covariance} = state; // Index
@@ -72,7 +70,7 @@ export default class State implements StateLT {
 	* @param {Array.<Array.<Number>>} matrix
 	* @returns {State}
 	*/
-	static matMul(args: {state: State, matrix: number[][]}): State {
+	static matMul(args: {state: State; matrix: number[][]}): State {
 		const {state, matrix} = args;
 		const covariance = matMul(
 			matMul(matrix, state.covariance),
@@ -114,7 +112,7 @@ export default class State implements StateLT {
 	* @param {Array.<[Number]>} point a Nx1 matrix representing a point
 	* @returns {DetailedMahalanobis}
 	*/
-	rawDetailedMahalanobis(point: number[][]): {diff: number[][], covarianceInvert: number[][], value: number} {
+	rawDetailedMahalanobis(point: number[][]): {diff: number[][]; covarianceInvert: number[][]; value: number} {
 		const diff = subtract(this.mean, point);
 		this.check();
 		const covarianceInvert = invert(this.covariance);
@@ -161,7 +159,7 @@ export default class State implements StateLT {
 	* @param {Array.<Number>} obsIndexes list of indexes of observation state to use for the mahalanobis distance
 	* @returns {DetailedMahalanobis}
 	*/
-	detailedMahalanobis(args: {kf: KalmanFilter, observation: number[][] | number[], obsIndexes?: number[]}): {diff: number[][], covarianceInvert: number[][], value: number} {
+	detailedMahalanobis(args: {kf: KalmanFilter; observation: number[][] | number[]; obsIndexes?: number[]}): {diff: number[][]; covarianceInvert: number[][]; value: number} {
 		const {kf, observation, obsIndexes} = args;
 		if (observation.length !== kf.observation.dimension) {
 			throw (new Error(`Mahalanobis observation ${observation} (dimension: ${observation.length}) does not match with kf observation dimension (${kf.observation.dimension})`));
@@ -169,7 +167,7 @@ export default class State implements StateLT {
 
 		let correctlySizedObservation = arrayToMatrix({observation, dimension: observation.length});
 		TypeAssert.assertIsArray2D(kf.observation.stateProjection, 'State.detailedMahalanobis');
-		const stateProjection = kf.getValue(kf.observation.stateProjection, {})  as number[][];
+		const stateProjection = kf.getValue(kf.observation.stateProjection, {}) as number[][];
 
 		let projectedState = State.matMul({state: this, matrix: stateProjection});
 
@@ -185,11 +183,12 @@ export default class State implements StateLT {
 	* @param {Object} options @see detailedMahalanobis
 	* @returns {Number}
 	*/
-	mahalanobis(options: {kf: KalmanFilter, observation: number[][] | number[], obsIndexes?: number[]}): number {
+	mahalanobis(options: {kf: KalmanFilter; observation: number[][] | number[]; obsIndexes?: number[]}): number {
 		const result = this.detailedMahalanobis(options).value;
 		if (Number.isNaN(result)) {
 			throw (new TypeError('mahalanobis is NaN'));
 		}
+
 		return result;
 	}
 
@@ -201,7 +200,7 @@ export default class State implements StateLT {
 	* @param {Array.<Number>} obsIndexes list of indexes of observation state to use for the bhattacharyya distance
 	* @returns {Number}
 	*/
-	obsBhattacharyya(options: {kf: KalmanFilter, state: State, obsIndexes: number[]}): number {
+	obsBhattacharyya(options: {kf: KalmanFilter; state: State; obsIndexes: number[]}): number {
 		const {kf, state, obsIndexes} = options;
 		TypeAssert.assertIsArray2D(kf.observation.stateProjection, 'State.obsBhattacharyya');
 		const stateProjection = kf.getValue(kf.observation.stateProjection, {});
@@ -238,3 +237,5 @@ export default class State implements StateLT {
 		return matMul(transpose(diff), matMul(covarInverted, diff))[0][0];
 	}
 }
+
+export default State

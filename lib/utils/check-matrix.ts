@@ -12,10 +12,8 @@ export default function checkMatrix(matrix: number[][], shape?: number[], title 
 	}
 
 	if (matrix.reduce((a, b) => a.concat(b)).some(a => Number.isNaN(a))) {
-		throw (new Error(
-			`[${title}] Matrix should not have a NaN\nIn : \n`
-			+ matrix.join('\n'),
-		));
+		throw (new Error(`[${title}] Matrix should not have a NaN\nIn : \n`
+			+ matrix.join('\n')));
 	}
 
 	if (shape) {

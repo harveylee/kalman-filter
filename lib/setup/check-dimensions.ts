@@ -6,12 +6,13 @@ import {DynamicConfigParcial} from '../types/ObservationConfig';
 * @param {ObservationConfig} observation
 * @param {DynamicConfig} dynamic
 */
-export default function checkDimensions(args: {observation, dynamic: DynamicConfigParcial}): {observation: any, dynamic: DynamicConfigParcial} {
+export default function checkDimensions(args: {observation; dynamic: DynamicConfigParcial}): {observation: any; dynamic: DynamicConfigParcial} {
 	const {observation, dynamic} = args;
 	const dynamicDimension = dynamic.dimension;
 	const observationDimension = observation.dimension;
 	if (!dynamicDimension || !observationDimension) {
 		throw (new TypeError('Dimension is not set'));
 	}
+
 	return {observation, dynamic};
 }

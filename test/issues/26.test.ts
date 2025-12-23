@@ -1,5 +1,5 @@
 import {test, expect} from 'bun:test';
-import {KalmanFilter} from '../../index.mjs';
+import {KalmanFilter} from '../../index';
 
 const START_TIME_DELTA_SECS = 1;
 const COVARIANCE_FILL = 1;

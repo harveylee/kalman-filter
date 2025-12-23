@@ -1,15 +1,16 @@
 import {test, expect} from 'bun:test';
-const t = {
-	true: (v:any) => expect(v).toBeTruthy(),
-	is: (a:any, b:any) => expect(a).toBe(b),
-	deepEqual: (a:any, b:any) => expect(a).toEqual(b),
-	not: (a:any, b:any) => expect(a).not.toBe(b),
-};
 import sl from 'simple-linalg';
+import CoreKalmanFilterPkg from '#lib/core-kalman-filter';
+import StatePkg from '#lib/state';
+
+const t = {
+	true: (v: any) => expect(v).toBeTruthy(),
+	is: (a: any, b: any) => expect(a).toBe(b),
+	deepEqual: (a: any, b: any) => expect(a).toEqual(b),
+	not: (a: any, b: any) => expect(a).not.toBe(b),
+};
 const {frobenius: distanceMat} = sl;
-import CoreKalmanFilterPkg from '../../../cjs/lib/core-kalman-filter.js';
 const CoreKalmanFilter = ((CoreKalmanFilterPkg as any) && (CoreKalmanFilterPkg as any).default) ? (CoreKalmanFilterPkg as any).default : (CoreKalmanFilterPkg as any);
-import StatePkg from '../../../cjs/lib/state.js';
 const State = ((StatePkg as any) && (StatePkg as any).default) ? (StatePkg as any).default : (StatePkg as any);
 
 // Tests in 2D with constant speed model

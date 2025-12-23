@@ -27,7 +27,7 @@ export default function composition({perName}, observation) {
 	let nextDynamicDimension = observedDynamDimension;
 	let nextObservedDimension = 0;
 	dynamicNames.forEach(k => {
-		const obsDynaIndexes = perName[k].obsDynaIndexes;
+		const {obsDynaIndexes} = perName[k];
 		if (typeof (perName[k].name) === 'string' && perName[k].name !== k) {
 			throw (new Error(`${perName[k].name} and "${k}" should match`));
 		}

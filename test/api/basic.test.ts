@@ -1,8 +1,7 @@
 // ReadMe Tests
 
 import {test, expect} from 'bun:test';
-import {KalmanFilter} from '../../index.mjs';
-import {State} from '../../index.mjs';
+import {KalmanFilter, State} from '../../index';
 // Const getCovariance = require('../../lib/utils/get-covariance.js');
 const observations = [[0, 2], [0.1, 4], [0.5, 9], [0.2, 12]];
 
@@ -161,7 +160,7 @@ test('Sensor observation', () => {
 		},
 	});
 	expect((kFilter.observation!.stateProjection as number[]).length)
-	.toBe(kFilter.observation!.sensorDimension * kFilter.observation.nSensors);
+		.toBe(kFilter.observation!.sensorDimension * kFilter.observation.nSensors);
 
 	expect(kFilter.observation!.stateProjection![0].length).toBe(4);
 

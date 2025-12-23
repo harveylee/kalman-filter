@@ -2,8 +2,9 @@ import {test, expect} from 'bun:test';
 import h from 'hasard';
 import cholesky from 'cholesky';
 import sl from 'simple-linalg';
+import {getCovariance} from '../../index';
+
 const {matMul, add} = sl;
-import {getCovariance} from '../../index.mjs';
 
 const buildDataFromCovariance = function (covariance) {
 	const dimension = covariance.length;

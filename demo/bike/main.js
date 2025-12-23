@@ -42,8 +42,8 @@ module.exports = {
 					const {mean, covariance} = predicted;
 
 					const element = createGroupBoxes({
-mean, covariance, parent: img, className: 'predicted', color: 'blue',
-});
+						mean, covariance, parent: img, className: 'predicted', color: 'blue',
+					});
 					els.push(element);
 
 					return delayPromise(delay);
@@ -70,8 +70,8 @@ mean, covariance, parent: img, className: 'predicted', color: 'blue',
 					const {mean, covariance} = previousCorrected;
 
 					const element = createGroupBoxes({
-mean, covariance, parent: img, className: 'corrected', color: 'red',
-});
+						mean, covariance, parent: img, className: 'corrected', color: 'red',
+					});
 					els.push(element);
 
 					return delayPromise(delay);

@@ -2,10 +2,13 @@ function debugValue(value: unknown): string {
 	if (value === undefined) {
 		return 'undefined';
 	}
+
 	let asStirng = '';
 	asStirng = typeof (value) === 'function' ? value.toString() : JSON.stringify(value);
-	if (asStirng.length < 100)
-	{return asStirng;}
+	if (asStirng.length < 100) {
+		return asStirng;
+	}
+
 	return asStirng.slice(0, 97) + '...';
 }
 
@@ -26,8 +29,11 @@ class TypeAssert {
 		if (!Array.isArray(arg)) {
 			throw new TypeError(`E002 ${name} is not an array. current value is ${debugValue(arg)}.`);
 		}
-		if (arg.length === 0)
-		{return;}
+
+		if (arg.length === 0) {
+			return;
+		}
+
 		if (!Array.isArray(arg[0])) {
 			throw new TypeError(`E003 ${name} must be an array of array. current value is ${debugValue(arg)}.`);
 		}
@@ -35,8 +41,10 @@ class TypeAssert {
 	}
 
 	static assertIsArray2DOrFnc<T>(arg: unknown, name = 'parameter'): asserts arg is T[][] | Function {
-		if (typeof (arg) === 'function')
-		{return;}
+		if (typeof (arg) === 'function') {
+			return;
+		}
+
 		TypeAssert.assertIsArray2D(arg, name);
 	}
 
@@ -50,18 +58,23 @@ class TypeAssert {
 		if (typeof arg === 'number') {
 			return;
 		}
+
 		if (!TypeAssert.isArray(arg)) {
 			throw new TypeError(`E004 ${name} is not an array. current value is ${debugValue(arg)}.`);
 		}
+
 		if (arg.length === 0) {
 			return;
 		}
+
 		if (typeof arg[0] === 'number') {
 			return;
 		}
+
 		if (!TypeAssert.isArray(arg[0])) {
 			throw new TypeError(`E005 ${name} is not an array of array. current value is ${debugValue(arg)}.`);
 		}
+
 		if (typeof (arg[0][0]) !== 'number') {
 			throw new TypeError(`E006 ${name} is not an array of array of number. current value is ${debugValue(arg)}.`);
 		}
@@ -71,6 +84,7 @@ class TypeAssert {
 		if (!Array.isArray(obj)) {
 			return false;
 		}
+
 		return (Array.isArray(obj[0]));
 	}
 
@@ -78,6 +92,7 @@ class TypeAssert {
 		if (!Array.isArray(obj)) {
 			return false;
 		}
+
 		return (typeof (obj[0]) === 'number');
 	}
 
@@ -85,17 +100,18 @@ class TypeAssert {
 		if (!Array.isArray(obj)) {
 			return false;
 		}
+
 		return true;
 	}
 
-	static isFunction(arg: unknown):  arg is Function {
+	static isFunction(arg: unknown): arg is Function {
 		if (typeof (arg) === 'function') {
 			return true;
 			// throw new TypeError(`E000 ${name} cannot be a fucntion. current value is ${debugValue(arg)}.`);
 		}
+
 		return false;
 	}
-
 }
 
 export default TypeAssert;

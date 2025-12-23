@@ -28,8 +28,8 @@ module.exports = {
 					const {mean, covariance} = predicted;
 
 					createGroupPoint({
-mean, covariance, parent: img, className: 'predicted', color: 'blue',
-});
+						mean, covariance, parent: img, className: 'predicted', color: 'blue',
+					});
 
 					return delayPromise(delay);
 				})
@@ -57,8 +57,8 @@ mean, covariance, parent: img, className: 'predicted', color: 'blue',
 					const {mean, covariance} = previousCorrected;
 
 					createGroupPoint({
-mean, covariance, parent: img, className: 'corrected', color: 'red',
-});
+						mean, covariance, parent: img, className: 'corrected', color: 'red',
+					});
 
 					return delayPromise(delay);
 				}).bind(null, box, index));

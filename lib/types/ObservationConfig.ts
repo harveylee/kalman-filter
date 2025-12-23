@@ -5,8 +5,8 @@ interface Observation {
 	name: string;
 }
 
-export type PreviousCorrectedCallback = (opts: {index: number, previousCorrected?: StateLT, predicted: StateLT, variance?: number[]}) => number[][];
-export type PredictedCallback         = (opts: {index: number, previousCorrected?: StateLT, predicted: StateLT, observation?: Observation}) => number[][];
+export type PreviousCorrectedCallback = (opts: {index: number; previousCorrected?: StateLT; predicted: StateLT; variance?: number[]}) => number[][];
+export type PredictedCallback = (opts: {index: number; previousCorrected?: StateLT; predicted: StateLT; observation?: Observation}) => number[][];
 
 // export type PredictedCallback = (opts: {index: number, previousCorrected: number}) => number[][];
 
@@ -50,7 +50,7 @@ export interface DynamicConfig {
  * partial verion of DynamicConfig
  * to be convert to a full DynamicConfig using extendDynamicInit
  */
-export interface DynamicConfigParcial extends Omit<DynamicConfig, 'init'>  {
+export interface DynamicConfigParcial extends Omit<DynamicConfig, 'init'> {
 	init?: {
 		mean: number[][];
 		covariance: number | number[] | number[][];
@@ -91,8 +91,8 @@ export interface CoreConfig {
 
 export interface ObservationConfig {
 	sensorDimension?: number;
-	dimension: number;  // Observation.dimension == observation.sensorDimension * observation.nSensors
-	nSensors?: number,
+	dimension: number; // Observation.dimension == observation.sensorDimension * observation.nSensors
+	nSensors?: number;
 	observedProjection?: any; // used in nullableSensor
 	fn?: PredictedCallback;
 	/**
@@ -103,16 +103,16 @@ export interface ObservationConfig {
      * covariance the covariance of the observation noise
      */
 	covariance: number[] | number[][] | PreviousCorrectedCallback;
-	sensorCovariance?: number[],
-	name?: 'sensor' | string,
+	sensorCovariance?: number[];
+	name?: 'sensor' | string;
 }
 
 export interface ObservationObjectConfig {
-	sensorDimension?: number, // Observation.dimension == observation.sensorDimension * observation.nSensors
-	dimension?: number;  // Observation.dimension == observation.sensorDimension * observation.nSensors
-	nSensors?: number,
+	sensorDimension?: number; // Observation.dimension == observation.sensorDimension * observation.nSensors
+	dimension?: number; // Observation.dimension == observation.sensorDimension * observation.nSensors
+	nSensors?: number;
 	observedProjection?: any; // used in nullableSensor
-	sensorCovariance?: number[],
-	name?: 'sensor' | string,
+	sensorCovariance?: number[];
+	name?: 'sensor' | string;
 }
 

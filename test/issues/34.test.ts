@@ -1,6 +1,7 @@
 import {test, expect} from 'bun:test';
-import {KalmanFilter} from '../../index.mjs';
 import sl from 'simple-linalg';
+import {KalmanFilter} from '../../index';
+
 const {diag} = sl;
 
 test('#34 1-D', () => {
@@ -25,7 +26,6 @@ test('#34 1-D', () => {
 });
 
 test('#34 2D', () => {
-
 	const dataset = [
 		[22, null],
 		[25, null],

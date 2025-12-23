@@ -1,24 +1,30 @@
 import {test, expect} from 'bun:test';
+import sl from 'simple-linalg';
+import CoreKalmanFilterPkg from '#lib/core-kalman-filter';
+import StatePkg from '#lib/state';
+import equalState from '../../helpers/equal-state';
+import type {CoreConfig} from '#lib/types/ObservationConfig';
+
 const t = {
-	true: (v:any) => expect(v).toBeTruthy(),
-	is: (a:any, b:any) => expect(a).toBe(b),
-	deepEqual: (a:any, b:any) => expect(a).toEqual(b),
-	not: (a:any, b:any) => expect(a).not.toBe(b),
-	throws: (fn:any) => {
+	true: (v: any) => expect(v).toBeTruthy(),
+	is: (a: any, b: any) => expect(a).toBe(b),
+	deepEqual: (a: any, b: any) => expect(a).toEqual(b),
+	not: (a: any, b: any) => expect(a).not.toBe(b),
+	throws: (fn: any) => {
 		let error;
-		try { fn(); } catch (e) { error = e; }
+		try {
+			fn();
+		} catch (error_) {
+			error = error_;
+		}
+
 		expect(error).toBeTruthy();
 		return error;
 	},
 };
-import sl from 'simple-linalg';
 const {trace, frobenius: distanceMat, sum} = sl;
-import CoreKalmanFilterPkg from '../../../cjs/lib/core-kalman-filter.js';
 const CoreKalmanFilter = ((CoreKalmanFilterPkg as any) && (CoreKalmanFilterPkg as any).default) ? (CoreKalmanFilterPkg as any).default : (CoreKalmanFilterPkg as any);
-import StatePkg from '../../../cjs/lib/state.js';
 const State = ((StatePkg as any) && (StatePkg as any).default) ? (StatePkg as any).default : (StatePkg as any);
-import equalState from '../../helpers/equal-state';
-import type {CoreConfig} from '../../../lib/types/ObservationConfig';
 
 const defaultOptions: CoreConfig = {
 	observation: {
