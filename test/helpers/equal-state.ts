@@ -1,9 +1,14 @@
-import {frobenius as distanceMat} from 'simple-linalg';
-import State from '../../lib/state';
+import sl from 'simple-linalg';
+const {frobenius: distanceMat} = sl;
 
-export default function equalState(state1, state2, tolerance = 1e-6) {
-	if ((!(state1 instanceof State)) || (!(state2 instanceof State))) {
-		throw (new TypeError('One of the args is not a State'));
+export function isState(obj:any) {
+	return !!obj && Array.isArray(obj.mean) && Array.isArray(obj.covariance);
+}
+
+export default function equalState(state1:any, state2:any, tolerance = 1e-6) {
+	if (!isState(state1) || !isState(state2)) {
+		// return false (don't throw) to avoid cross-module identity issues
+		return false;
 	}
 
 	return (
@@ -11,3 +16,6 @@ export default function equalState(state1, state2, tolerance = 1e-6) {
 		&& (distanceMat(state1.covariance, state2.covariance) < tolerance)
 	);
 }
+
+// convenience property
+(equalState as any).isState = isState;

@@ -1,14 +1,13 @@
-import cjsModule from './cjs/index.js';
-// CommonJS modules imported via ESM are usually accessible on the `default` property.
-const _cjs = cjsModule && cjsModule.default ? cjsModule.default : cjsModule;
+import * as esm from './dist/esm/exports.mjs';
 
-export const KalmanFilter = _cjs.KalmanFilter;
-export const getCovariance = _cjs.getCovariance;
-export const State = _cjs.State;
-export const checkCovariance = _cjs.checkCovariance;
-export const correlationToCovariance = _cjs.correlationToCovariance;
-export const covarianceToCorrelation = _cjs.covarianceToCorrelation;
-export const projectObservation = _cjs.projectObservation;
+export const KalmanFilter = esm.KalmanFilter;
+export const getCovariance = esm.getCovariance;
+export const State = esm.State;
+export const checkCovariance = esm.checkCovariance;
+export const correlationToCovariance = esm.correlationToCovariance;
+export const covarianceToCorrelation = esm.covarianceToCorrelation;
+export const projectObservation = esm.projectObservation;
+export const registerDynamic = esm.registerDynamic;
+export const registerObservation = esm.registerObservation;
 
-// re-export everything else as a default namespace
-export default _cjs;
+export default esm;

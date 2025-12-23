@@ -25,7 +25,8 @@ This document records the steps taken to migrate the build to Bun and how to rep
 
 ## Notes / Caveats
 - `bun build` requires Bun installed on your machine.
-- Type declaration files are still produced by `tsc` (run `npm run build:types`).
+- Type declaration files are still produced by `tsc` (run `bun x tsc -p tsconfig.json`).
+- Tests & scripts are invoked with Bun: `bun run test` runs `bun x tsc`, `bun x xo`, and `bun x ava`.
 - CI: add a job that runs `bun install` and `bun run build` on tags to produce `dist/` artifacts for releases.
 
 ## Rollback

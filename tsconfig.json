@@ -28,7 +28,8 @@
     "test/unit/kalman-filter/filter.ts",
     "test/unit/kalman-filter/logger.ts",
     "test/unit/kalman-filter/polymorphism.ts",
-    "test/unit/kalman-filter/register.ts"
+	"test/unit/kalman-filter/register.ts",
+	"test/types/**/*.d.ts"
   ],
   "exclude": ["dist"]
 }
