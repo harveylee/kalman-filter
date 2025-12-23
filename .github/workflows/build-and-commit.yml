@@ -1,4 +1,6 @@
 name: Build and commit dist artifacts
+permissions:
+  contents: write
 
 on:
   push:
@@ -19,12 +21,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: true
+          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -44,6 +42,7 @@ jobs:
         run: bun run build-demo
 
       - name: Commit dist if changed
+        if: startsWith(github.ref, 'refs/heads/')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
