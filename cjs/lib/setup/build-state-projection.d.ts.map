@@ -1,0 +1,1 @@
+{"version":3,"file":"build-state-projection.d.ts","sourceRoot":"","sources":["../../../lib/setup/build-state-projection.ts"],"names":[],"mappings":"AAEA,OAAO,EAAC,oBAAoB,EAAC,MAAM,4BAA4B,CAAC;AAEhE;;;;;;EAME;AACF,MAAM,CAAC,OAAO,UAAU,oBAAoB,CAAC,IAAI,EAAE;IAAC,WAAW,MAAC;IAAC,OAAO,EAAE,oBAAoB,CAAA;CAAC,GAAG;IAAC,WAAW,EAAE,GAAG,CAAC;IAAC,OAAO,EAAE,oBAAoB,CAAA;CAAC,CAgClJ"}
