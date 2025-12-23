@@ -105,4 +105,4 @@ typings/
 # dist and cjs artifacts are committed by CI for GitHub installs
 # (previously ignored to avoid committing build outputs)
 # dist/
-# cjs/
+# cjs/vendor/
